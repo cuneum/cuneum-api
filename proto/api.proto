@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package api;
+option go_package = "github.com/cuneum/cuneum-api/pkg/pb";
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "cuneum API";
+    contact: {
+      name: "cuneum";
+      url: "https://github.com/cuneum/cuneum-api";
+    };
+  };
+  schemes: HTTPS;
+  consumes: "application/json";
+  produces: "application/json";
+};

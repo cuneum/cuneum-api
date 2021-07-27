@@ -8,3 +8,11 @@ services:
     working_dir: /src
     ports:
     - 8080:8080
+  swagger:
+    image: swaggerapi/swagger-ui
+    volumes:
+    - ./docs/apidocs.swagger.json:/usr/share/nginx/html/apidocs.swagger.json
+    environment:
+      API_URL: ./apidocs.swagger.json
+    ports:
+    - 9000:8080

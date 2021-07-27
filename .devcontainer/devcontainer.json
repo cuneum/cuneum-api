@@ -3,7 +3,8 @@
     "service": "api",
     "workspaceFolder": "/src",
     "extensions": [
-        "golang.Go"
+        "golang.Go",
+        "zxh404.vscode-proto3",
     ],
-    "postCreateCommand": "make install",
+    "postCreateCommand": "make docker",
 }
