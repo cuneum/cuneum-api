@@ -1,0 +1,10 @@
+version: "3"
+services:
+  api:
+    image: golang:1.16.6-buster
+    tty: true
+    volumes:
+    - .:/src
+    working_dir: /src
+    ports:
+    - 8080:8080
