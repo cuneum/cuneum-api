@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package pagenation;
+option go_package = "github.com/cuneum/cuneum-api/pkg/pb";
+
+message PagenationRequest {
+  optional int32 page = 1;
+  optional int32 limit = 2;
+}
+
+message PagenationResponse {
+  int32 current = 1;
+  int32 pages = 2;
+  int32 limit = 3;
+  int32 total = 4;
+}

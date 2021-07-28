@@ -8,6 +8,11 @@
       "url": "https://github.com/cuneum/cuneum-api"
     }
   },
+  "tags": [
+    {
+      "name": "ArticleService"
+    }
+  ],
   "schemes": [
     "https"
   ],
@@ -17,8 +22,102 @@
   "produces": [
     "application/json"
   ],
-  "paths": {},
+  "paths": {
+    "/api/v1/articles": {
+      "get": {
+        "operationId": "ArticleService_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/articleArticleList"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "ArticleService"
+        ]
+      }
+    }
+  },
   "definitions": {
+    "articleArticle": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "publishedAt": {
+          "type": "string"
+        }
+      }
+    },
+    "articleArticleList": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/articleArticle"
+          }
+        },
+        "pagenation": {
+          "$ref": "#/definitions/pagenationPagenationResponse"
+        }
+      }
+    },
+    "pagenationPagenationResponse": {
+      "type": "object",
+      "properties": {
+        "current": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "protobufAny": {
       "type": "object",
       "properties": {

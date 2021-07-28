@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package article;
+option go_package = "github.com/cuneum/cuneum-api/pkg/pb";
+
+import "google/api/annotations.proto";
+import "proto/pagenation.proto";
+
+service ArticleService {
+  rpc List(pagenation.PagenationRequest) returns (ArticleList) {
+    option (google.api.http) = {
+      get: "/api/v1/articles"
+    };
+  }
+}
+
+message Article {
+  string id = 1;
+  string title = 2;
+  string url = 3;
+  string image_url = 4;
+  string published_at = 5;
+}
+
+message ArticleList {
+  repeated Article data = 1;
+  pagenation.PagenationResponse pagenation = 2;
+}

@@ -8,6 +8,7 @@ services:
     working_dir: /src
     ports:
     - 8080:8080
+    - 8081:8081
   swagger:
     image: swaggerapi/swagger-ui
     volumes:
