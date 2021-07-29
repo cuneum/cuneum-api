@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"net"
 	"net/http"
 	"os"
@@ -13,6 +13,7 @@ import (
 	health "google.golang.org/grpc/health/grpc_health_v1"
 
 	"github.com/cuneum/cuneum-api/internal/handler"
+	"github.com/cuneum/cuneum-api/internal/service"
 	"github.com/cuneum/cuneum-api/pkg/pb"
 )
 
@@ -24,7 +25,7 @@ const (
 func main() {
 	grpcS := grpcServer()
 	httpS := httpServer()
-	fmt.Println("start")
+	log.Println("start")
 
 	ctx, f := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer f()
@@ -32,7 +33,7 @@ func main() {
 	<-ctx.Done()
 	httpS.Shutdown(context.Background())
 	grpcS.GracefulStop()
-	fmt.Println("shutdown")
+	log.Println("shutdown")
 }
 
 func grpcServer() *grpc.Server {
@@ -42,7 +43,7 @@ func grpcServer() *grpc.Server {
 	}
 
 	server := grpc.NewServer()
-	pb.RegisterArticleServiceServer(server, handler.NewArticle())
+	pb.RegisterArticleServiceServer(server, handler.NewArticle(service.NewArticleService()))
 	health.RegisterHealthServer(server, handler.NewHealth())
 	go func() {
 		if err := server.Serve(l); err != nil {

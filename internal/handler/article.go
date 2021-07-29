@@ -2,31 +2,28 @@ package handler
 
 import (
 	"context"
-	"time"
 
+	"github.com/cuneum/cuneum-api/internal/service"
 	"github.com/cuneum/cuneum-api/pkg/pb"
-	"github.com/google/uuid"
 )
 
-func NewArticle() pb.ArticleServiceServer {
-	return article{}
+func NewArticle(articleService service.ArticleService) pb.ArticleServiceServer {
+	return article{
+		articleService: articleService,
+	}
 }
 
 type article struct {
 	pb.ArticleServiceServer
+
+	articleService service.ArticleService
 }
 
-func (a article) List(context.Context, *pb.PagenationRequest) (*pb.ArticleList, error) {
-	return &pb.ArticleList{
-		Data: []*pb.Article{
-			{
-				Id:          uuid.New().String(),
-				Title:       "hoge",
-				Url:         "https://example.com/hoge",
-				ImageUrl:    "https://example.com/hoge.png",
-				PublishedAt: time.Now().Format(time.RFC3339),
-			},
-		},
-		Pagenation: &pb.PagenationResponse{},
-	}, nil
+func (a article) List(ctx context.Context, _ *pb.PagenationRequest) (*pb.ArticleList, error) {
+	result, err := a.articleService.GetArticleList(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return result.Into(), nil
 }
